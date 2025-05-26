@@ -1,5 +1,4 @@
 from .aiml import AIMLEmbeddingsComponent
-from .astra_vectorize import AstraVectorizeComponent
 from .azure_openai import AzureOpenAIEmbeddingsComponent
 from .cloudflare import CloudflareWorkersAIEmbeddingsComponent
 from .cohere import CohereEmbeddingsComponent
@@ -18,7 +17,6 @@ from .watsonx import WatsonxEmbeddingsComponent
 
 __all__ = [
     "AIMLEmbeddingsComponent",
-    "AstraVectorizeComponent",
     "AzureOpenAIEmbeddingsComponent",
     "CloudflareWorkersAIEmbeddingsComponent",
     "CohereEmbeddingsComponent",

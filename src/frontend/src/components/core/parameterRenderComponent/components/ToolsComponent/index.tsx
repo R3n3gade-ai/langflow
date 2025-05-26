@@ -88,24 +88,58 @@ export default function ToolsComponent({
             ))}
           </div>
         ) : visibleActions.length > 0 ? (
-          <div className="flex w-full flex-wrap gap-1 overflow-hidden py-1.5">
+          <div className="grid grid-cols-6 gap-2 w-full py-1.5">
             {visibleActions.map((action, index) => (
-              <Badge
+              <div
                 key={index}
-                variant="secondaryStatic"
-                size="sq"
-                className="truncate font-normal"
+                className="flex flex-col items-center justify-center p-2 border border-border rounded hover:bg-muted/50 transition-colors cursor-pointer relative min-h-[60px] aspect-square"
                 data-testid={testIdCase(`tool_${action.name}`)}
               >
-                <span className="truncate text-xxs font-medium">
-                  {action.name.toUpperCase()}
+                <div className="w-6 h-6 bg-muted rounded flex items-center justify-center mb-1">
+                  <ForwardedIconComponent
+                    name="Zap"
+                    className="h-3 w-3 text-muted-foreground"
+                  />
+                </div>
+                <span className="text-xs font-medium text-center leading-tight px-1 truncate">
+                  {action.name}
                 </span>
-              </Badge>
+                <div className="absolute top-1 right-1 w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+              </div>
             ))}
+            {/* Add some placeholder connections */}
+            <div className="flex flex-col items-center justify-center p-2 border border-border rounded hover:bg-muted/50 transition-colors cursor-pointer relative min-h-[60px] aspect-square">
+              <div className="w-6 h-6 bg-muted rounded flex items-center justify-center mb-1">
+                <ForwardedIconComponent name="Mail" className="h-3 w-3 text-muted-foreground" />
+              </div>
+              <span className="text-xs font-medium text-center leading-tight px-1">Gmail</span>
+            </div>
+            <div className="flex flex-col items-center justify-center p-2 border border-border rounded hover:bg-muted/50 transition-colors cursor-pointer relative min-h-[60px] aspect-square">
+              <div className="w-6 h-6 bg-muted rounded flex items-center justify-center mb-1">
+                <ForwardedIconComponent name="MessageSquare" className="h-3 w-3 text-muted-foreground" />
+              </div>
+              <span className="text-xs font-medium text-center leading-tight px-1">Slack</span>
+              <div className="absolute top-1 right-1 w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+            </div>
+            <div className="flex flex-col items-center justify-center p-2 border border-border rounded hover:bg-muted/50 transition-colors cursor-pointer relative min-h-[60px] aspect-square">
+              <div className="w-6 h-6 bg-muted rounded flex items-center justify-center mb-1">
+                <ForwardedIconComponent name="Github" className="h-3 w-3 text-muted-foreground" />
+              </div>
+              <span className="text-xs font-medium text-center leading-tight px-1">GitHub</span>
+              <div className="absolute top-1 right-1 w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+            </div>
+            <div className="flex flex-col items-center justify-center p-2 border border-border rounded hover:bg-muted/50 transition-colors cursor-pointer relative min-h-[60px] aspect-square">
+              <div className="w-6 h-6 bg-muted rounded flex items-center justify-center mb-1">
+                <ForwardedIconComponent name="FileText" className="h-3 w-3 text-muted-foreground" />
+              </div>
+              <span className="text-xs font-medium text-center leading-tight px-1">Notion</span>
+            </div>
             {remainingCount > 0 && (
-              <span className="ml-1 self-center text-xs font-normal text-muted-foreground">
-                +{remainingCount} more
-              </span>
+              <div className="flex items-center justify-center col-span-2">
+                <span className="text-xs font-normal text-muted-foreground">
+                  +{remainingCount} more
+                </span>
+              </div>
             )}
           </div>
         ) : (

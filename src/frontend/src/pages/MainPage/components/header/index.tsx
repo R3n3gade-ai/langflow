@@ -10,12 +10,14 @@ import {
 import { useDeleteDeleteFlows } from "@/controllers/API/queries/flows/use-delete-delete-flows";
 import { useGetDownloadFlows } from "@/controllers/API/queries/flows/use-get-download-flows";
 import { ENABLE_MCP } from "@/customization/feature-flags";
+import { track } from "@/customization/utils/analytics";
+import useAddFlow from "@/hooks/flows/use-add-flow";
 import DeleteConfirmationModal from "@/modals/deleteConfirmationModal";
 import useAlertStore from "@/stores/alertStore";
 import { cn } from "@/utils/utils";
 import { debounce } from "lodash";
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface HeaderComponentProps {
   flowType: "flows" | "components" | "mcp";
@@ -43,6 +45,9 @@ const HeaderComponent = ({
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const isMCPEnabled = ENABLE_MCP;
   const setSuccessData = useAlertStore((state) => state.setSuccessData);
+  const addFlow = useAddFlow();
+  const navigate = useNavigate();
+  const { folderId } = useParams();
   // Debounce the setSearch function from the parent
   const debouncedSetSearch = useCallback(
     debounce((value: string) => {
@@ -232,7 +237,14 @@ const HeaderComponent = ({
                     variant="default"
                     size="iconMd"
                     className="z-50 px-2.5 !text-mmd"
-                    onClick={() => setNewProjectModal(true)}
+                    onClick={() => {
+                      addFlow().then((id) => {
+                        navigate(
+                          `/flow/${id}${folderId ? `/folder/${folderId}` : ""}`,
+                        );
+                      });
+                      track("New Flow Created", { template: "Blank Flow" });
+                    }}
                     id="new-project-btn"
                     data-testid="new-project-btn"
                   >

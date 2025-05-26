@@ -61,3 +61,31 @@ export const MemoizedSidebarTrigger = memo(() => (
     </SidebarTrigger>
   </Panel>
 ));
+
+interface MemoizedRightSidebarTriggerProps {
+  isOpen: boolean;
+  onToggle: () => void;
+}
+
+export const MemoizedRightSidebarTrigger = memo(({ isOpen, onToggle }: MemoizedRightSidebarTriggerProps) => (
+  <Panel
+    className={cn(
+      "react-flow__controls !top-auto !m-2 flex gap-1.5 rounded-md border border-secondary-hover bg-background fill-foreground stroke-foreground p-1.5 text-primary shadow transition-all duration-300 [&>button]:border-0 [&>button]:bg-background hover:[&>button]:bg-accent",
+      "pointer-events-auto opacity-100",
+      isOpen ? "translate-x-full opacity-0 pointer-events-none" : "",
+    )}
+    position="top-right"
+  >
+    <button
+      onClick={onToggle}
+      className="h-fit w-fit px-3 py-1.5 bg-background hover:bg-accent rounded transition-colors"
+      data-testid="right-sidebar-trigger"
+    >
+      <ForwardedIconComponent
+        name={isOpen ? "PanelRightClose" : "PanelRightOpen"}
+        className="h-4 w-4"
+      />
+      <span className="text-foreground ml-2">Navigation</span>
+    </button>
+  </Panel>
+));

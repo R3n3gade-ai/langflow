@@ -108,7 +108,7 @@ dependencies = [
     "crewai==0.102.0",
     "mcp>=0.9.1",
     "uv>=0.5.7",
-    "webrtcvad>=2.0.10",
+    # "webrtcvad>=2.0.10",  # Temporarily disabled due to Windows build issues
     "scipy>=1.14.1",
     "ag2>=0.1.0",
     "scrapegraph-py>=1.12.0",

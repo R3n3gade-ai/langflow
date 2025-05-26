@@ -14,7 +14,12 @@ from uuid import UUID, uuid4
 import numpy as np
 import requests
 import sqlalchemy
-import webrtcvad
+try:
+    import webrtcvad
+    WEBRTCVAD_AVAILABLE = True
+except ImportError:
+    WEBRTCVAD_AVAILABLE = False
+    webrtcvad = None
 import websockets
 from cryptography.fernet import InvalidToken
 from elevenlabs import ElevenLabs
@@ -764,7 +769,11 @@ async def flow_as_tool_websocket(
             vad_queue: asyncio.Queue = asyncio.Queue()
             vad_audio_buffer = bytearray()
             bot_speaking_flag = [False]
-            vad = webrtcvad.Vad(mode=3)
+            vad = None
+            if WEBRTCVAD_AVAILABLE:
+                vad = webrtcvad.Vad(mode=3)
+            else:
+                logger.warning("webrtcvad not available, VAD functionality disabled")
 
             async def process_vad_audio() -> None:
                 nonlocal vad_audio_buffer
@@ -778,14 +787,18 @@ async def flow_as_tool_websocket(
                         frame_24k = vad_audio_buffer[:BYTES_PER_24K_FRAME]
                         del vad_audio_buffer[:BYTES_PER_24K_FRAME]
                         try:
-                            frame_16k = resample_24k_to_16k(frame_24k)
-                            is_speech = vad.is_speech(frame_16k, VAD_SAMPLE_RATE_16K)
-                            if is_speech:
-                                has_speech = True
-                                logger.trace("!", end="")
-                                if bot_speaking_flag[0]:
-                                    msg_handler.openai_send({"type": "response.cancel"})
-                                    bot_speaking_flag[0] = False
+                            if vad is not None:
+                                frame_16k = resample_24k_to_16k(frame_24k)
+                                is_speech = vad.is_speech(frame_16k, VAD_SAMPLE_RATE_16K)
+                                if is_speech:
+                                    has_speech = True
+                                    logger.trace("!", end="")
+                                    if bot_speaking_flag[0]:
+                                        msg_handler.openai_send({"type": "response.cancel"})
+                                        bot_speaking_flag[0] = False
+                            else:
+                                # VAD not available, skip speech detection
+                                continue
                         except Exception as e:  # noqa: BLE001
                             logger.error(f"[ERROR] VAD processing failed (ValueError): {e}")
                             continue

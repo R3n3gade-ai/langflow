@@ -13,12 +13,12 @@
     --foreground: 0 0% 0%; /* hsl(0, 0%, 0%) */
     --background: 0 0% 100%; /* hsl(0, 0%, 100%) */
     --muted: 240 5% 96%; /* hsl(240, 5%, 96%) */
-    --muted-foreground: 240 4% 46%; /* hsl(240, 4%, 46%) */
+    --muted-foreground: 221 83% 53%; /* hsl(221, 83%, 53%) */
     --card: 0 0% 100%; /* hsl(0, 0%, 100%) */
     --card-foreground: 0 0% 0%; /* hsl(0, 0%, 0%) */
     --popover: 0 0% 100%; /* hsl(0, 0%, 100%) */
     --popover-foreground: 0 0% 0%; /* hsl(0, 0%, 0%) */
-    --border: 240 6% 90%; /* hsl(240, 6%, 90%) */
+    --border: 217.2 91.2% 59.8%; /* hsl(217.2, 91.2%, 59.8%) */
     --input: 240 6% 90%; /* hsl(240, 6%, 90%) */
     --primary-foreground: 0 0% 100%; /* hsl(0, 0%, 100%) */
     --primary: 0 0% 0%; /* hsl(0, 0%, 0%) */
@@ -30,7 +30,7 @@
     --destructive-foreground: 0 0% 100%; /* hsl(0, 0%, 100%) */
     --accent-amber: 26 90% 37%; /* hsl(26, 90%, 37%) */
     --accent-amber-foreground: 26 90% 37%; /* hsl(26, 90%, 37%) */
-    --ring: 0 0% 0%; /* hsl(0, 0%, 0%) */
+    --ring: 217.2 91.2% 59.8%; /* hsl(217.2, 91.2%, 59.8%) */
     --primary-hover: 240 4% 16%; /* hsl(240, 4%, 16%) */
     --secondary-hover: 240 6% 90%; /* hsl(240, 6%, 90%) */
     --placeholder-foreground: 240 5% 65%; /* hsl(240, 5%, 65%) */
@@ -114,7 +114,7 @@
     --status-green: #4ade80;
     --status-blue: #2563eb;
     --status-gray: #6b7280;
-    --connection: #555;
+    --connection: #2563eb;
 
     --note-amber: 48 96.6% 76.7%; /* hsl(48, 96.6%, 76.7%) */
     --note-neutral: 240 5.9% 90%; /* hsl(240, 5.9%, 90%) */
@@ -179,7 +179,7 @@
     --datatype-orange: 20.5 90.2% 48.2%;
     --datatype-orange-foreground: 34.3 100% 91.8%;
 
-    --node-ring: 240 6% 90%;
+    --node-ring: 217.2 91.2% 59.8%;
 
     --neon-fuschia: 340 100% 60%; /* hsl(340, 100%, 60%) */
     --digital-orchid: 295 100% 75%; /* hsl(295, 100%, 75%) */
@@ -206,12 +206,12 @@
     --foreground: 0 0% 100%; /* hsl(0, 0%, 100%) */
     --background: 240 6% 10%; /* hsl(240, 6%, 10%) */
     --muted: 240 4% 16%; /* hsl(240, 4%, 16%) */
-    --muted-foreground: 240 5% 65%; /* hsl(240, 5%, 65%) */
+    --muted-foreground: 221 83% 53%; /* hsl(221, 83%, 53%) */
     --card: 240 6% 10%; /* hsl(240, 6%, 10%) */
     --card-foreground: 0 0% 100%; /* hsl(0, 0%, 100%) */
     --popover: 240 6% 10%; /* hsl(240, 6%, 10%) */
     --popover-foreground: 0 0% 100%; /* hsl(0, 0%, 100%) */
-    --border: 240 5% 26%; /* hsl(240, 5%, 26%) */
+    --border: 217.2 91.2% 59.8%; /* hsl(217.2, 91.2%, 59.8%) */
     --input: 240 5% 34%; /* hsl(240, 5%, 34%) */
     --primary-foreground: 0 0% 0%; /* hsl(0, 0%, 0%) */
     --primary: 0 0% 100%; /* hsl(0, 0%, 100%) */
@@ -221,7 +221,7 @@
     --accent-foreground: 0 0% 100%; /* hsl(0, 0%, 100%) */
     --destructive: 0 84% 60%; /* hsl(0, 84%, 60%) */
     --destructive-foreground: 0 0% 100%; /* hsl(0, 0%, 100%) */
-    --ring: 0 0% 100%; /* hsl(0, 0%, 100%) */
+    --ring: 217.2 91.2% 59.8%; /* hsl(217.2, 91.2%, 59.8%) */
     --primary-hover: 240 6% 90%; /* hsl(240, 6%, 90%) */
     --secondary-hover: 240 4% 16%; /* hsl(240, 4%, 16%) */
     --placeholder-foreground: 240 4% 46%; /* hsl(240, 4%, 46%) */
@@ -384,7 +384,7 @@
     --chat-send: #ffffff;
     --status-green: #4ade80;
     --status-blue: #2563eb;
-    --connection: #6d6c6c;
+    --connection: #3b82f6;
     --code-background: 240 6% 10%;
     --code-description-background: 0 0% 0%;
     --code-foreground: 240 6% 90%;
@@ -450,7 +450,7 @@
     --datatype-orange: 20.5 90.2% 48.2%;
     --datatype-orange-foreground: 30.7 97.2% 72.4%;
 
-    --node-ring: 240 6% 90%;
+    --node-ring: 217.2 91.2% 59.8%;
 
     --slider-input-border: #d4d4d8;
 

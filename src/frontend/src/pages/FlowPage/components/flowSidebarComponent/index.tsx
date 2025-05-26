@@ -4,6 +4,8 @@ import {
   SidebarFooter,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ForwardedIconComponent from "@/components/common/genericIconComponent";
 import SkeletonGroup from "@/components/ui/skeletonGroup";
 import { useAddComponent } from "@/hooks/use-add-component";
 import { useShortcutsStore } from "@/stores/shortcuts";
@@ -70,7 +72,40 @@ export function FlowSidebarComponent({ isLoading }: FlowSidebarComponentProps) {
   const [openCategories, setOpenCategories] = useState<string[]>([]);
   const [showConfig, setShowConfig] = useState(false);
   const [showBeta, setShowBeta] = useState(true);
-  const [showLegacy, setShowLegacy] = useState(false);
+  const [showLegacy, setShowLegacy] = useState(true);
+  const [activeTab, setActiveTab] = useState("llm");
+
+  // Define tab categories
+  const componentTabs = [
+    { id: "llm", label: "LLM", icon: "BrainCircuit" },
+    { id: "tools", label: "TOOLS", icon: "Wrench" },
+    { id: "build", label: "BUILD", icon: "Blocks" },
+    { id: "data", label: "DATA", icon: "Database" },
+  ];
+
+  // Categorize components into tabs
+  const tabCategories = {
+    llm: [
+      "models", "agents", "crewai", "ag2", "smolagents", "dspy", "amazon",
+      "langchain_utilities"
+    ],
+    tools: [
+      "tools", "helpers", "logic", "composio", "search", "agentql", "apify",
+      "assemblyai", "confluence", "firecrawl", "git", "google", "homeassistant",
+      "langwatch", "needle", "notdiamond", "nvidia", "olivya", "scrapegraph",
+      "twelvelabs", "unstructured", "vectara", "youtube", "datastax",
+      "icosacomputing", "link_extractors", "retrievers", "textsplitters",
+      "toolkits", "Notion", "cohere"
+    ],
+    build: [
+      "chains", "prompts", "processing", "inputs", "outputs", "prototypes",
+      "output_parsers", "custom_component"
+    ],
+    data: [
+      "data", "vectorstores", "embeddings", "memories", "documentloaders"
+    ],
+  };
+
   const [isInputFocused, setIsInputFocused] = useState(false);
 
   const searchInputRef = useRef<HTMLInputElement | null>(null);
@@ -132,8 +167,18 @@ export function FlowSidebarComponent({ isLoading }: FlowSidebarComponentProps) {
       filteredData = applyLegacyFilter(filteredData);
     }
 
-    return filteredData;
-  }, [searchFilteredData, getFilterEdge, showBeta, showLegacy]);
+    // Apply tab filter
+    const tabCategoryNames = tabCategories[activeTab] || [];
+    const tabFilteredData = {};
+
+    Object.entries(filteredData).forEach(([categoryName, items]) => {
+      if (tabCategoryNames.includes(categoryName)) {
+        tabFilteredData[categoryName] = items;
+      }
+    });
+
+    return tabFilteredData;
+  }, [searchFilteredData, getFilterEdge, showBeta, showLegacy, activeTab, tabCategories]);
 
   const hasResults = useMemo(() => {
     return Object.entries(dataFilter).some(
@@ -293,73 +338,96 @@ export function FlowSidebarComponent({ isLoading }: FlowSidebarComponentProps) {
       data-testid="shad-sidebar"
       className="noflow"
     >
-      <SidebarHeaderComponent
-        showConfig={showConfig}
-        setShowConfig={setShowConfig}
-        showBeta={showBeta}
-        setShowBeta={setShowBeta}
-        showLegacy={showLegacy}
-        setShowLegacy={setShowLegacy}
-        searchInputRef={searchInputRef}
-        isInputFocused={isInputFocused}
-        search={search}
-        handleInputFocus={handleInputFocus}
-        handleInputBlur={handleInputBlur}
-        handleInputChange={handleInputChange}
-        filterType={filterType}
-        setFilterEdge={setFilterEdge}
-        setFilterData={setFilterData}
-        data={data}
-      />
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full flex flex-col">
+        <TabsList className="grid w-full grid-cols-4 mx-2 my-4 mb-0">
+          {componentTabs.map((tab) => (
+            <TabsTrigger
+              key={tab.id}
+              value={tab.id}
+              className="flex items-center gap-1 text-xs"
+              data-testid={`left-sidebar-tab-${tab.id}`}
+            >
+              <ForwardedIconComponent
+                name={tab.icon}
+                className="h-3 w-3"
+              />
+              <span>{tab.label}</span>
+            </TabsTrigger>
+          ))}
+        </TabsList>
 
-      <SidebarContent>
-        {isLoading ? (
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col gap-1 p-3">
-              <SkeletonGroup count={13} className="my-0.5 h-7" />
-            </div>
-            <div className="h-8" />
-            <div className="flex flex-col gap-1 px-3 pt-2">
-              <SkeletonGroup count={21} className="my-0.5 h-7" />
-            </div>
-          </div>
-        ) : (
-          <>
-            {hasResults ? (
-              <>
-                <CategoryGroup
-                  dataFilter={dataFilter}
-                  sortedCategories={sortedCategories}
-                  CATEGORIES={CATEGORIES}
-                  openCategories={openCategories}
-                  setOpenCategories={setOpenCategories}
-                  search={search}
-                  nodeColors={nodeColors}
-                  onDragStart={onDragStart}
-                  sensitiveSort={sensitiveSort}
-                />
+        <SidebarHeaderComponent
+          showConfig={showConfig}
+          setShowConfig={setShowConfig}
+          showBeta={showBeta}
+          setShowBeta={setShowBeta}
+          showLegacy={showLegacy}
+          setShowLegacy={setShowLegacy}
+          searchInputRef={searchInputRef}
+          isInputFocused={isInputFocused}
+          search={search}
+          handleInputFocus={handleInputFocus}
+          handleInputBlur={handleInputBlur}
+          handleInputChange={handleInputChange}
+          filterType={filterType}
+          setFilterEdge={setFilterEdge}
+          setFilterData={setFilterData}
+          data={data}
+        />
 
-                {hasBundleItems && (
-                  <MemoizedSidebarGroup
-                    BUNDLES={BUNDLES}
-                    search={search}
-                    sortedCategories={sortedCategories}
-                    dataFilter={dataFilter}
-                    nodeColors={nodeColors}
-                    onDragStart={onDragStart}
-                    sensitiveSort={sensitiveSort}
-                    openCategories={openCategories}
-                    setOpenCategories={setOpenCategories}
-                    handleKeyDownInput={handleKeyDownInput}
-                  />
-                )}
-              </>
-            ) : (
-              <NoResultsMessage onClearSearch={handleClearSearch} />
-            )}
-          </>
-        )}
-      </SidebarContent>
+        <SidebarContent className="flex-1">
+          {componentTabs.map((tab) => (
+            <TabsContent key={tab.id} value={tab.id} className="mt-0 h-full">
+              {isLoading ? (
+                <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-1 p-3">
+                    <SkeletonGroup count={13} className="my-0.5 h-7" />
+                  </div>
+                  <div className="h-8" />
+                  <div className="flex flex-col gap-1 px-3 pt-2">
+                    <SkeletonGroup count={21} className="my-0.5 h-7" />
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {hasResults ? (
+                    <>
+                      <CategoryGroup
+                        dataFilter={dataFilter}
+                        sortedCategories={sortedCategories}
+                        CATEGORIES={CATEGORIES}
+                        openCategories={openCategories}
+                        setOpenCategories={setOpenCategories}
+                        search={search}
+                        nodeColors={nodeColors}
+                        onDragStart={onDragStart}
+                        sensitiveSort={sensitiveSort}
+                      />
+
+                      {hasBundleItems && (
+                        <MemoizedSidebarGroup
+                          BUNDLES={BUNDLES}
+                          search={search}
+                          sortedCategories={sortedCategories}
+                          dataFilter={dataFilter}
+                          nodeColors={nodeColors}
+                          onDragStart={onDragStart}
+                          sensitiveSort={sensitiveSort}
+                          openCategories={openCategories}
+                          setOpenCategories={setOpenCategories}
+                          handleKeyDownInput={handleKeyDownInput}
+                        />
+                      )}
+                    </>
+                  ) : (
+                    <NoResultsMessage onClearSearch={handleClearSearch} />
+                  )}
+                </>
+              )}
+            </TabsContent>
+          ))}
+        </SidebarContent>
+      </Tabs>
       <SidebarFooter className="border-t p-4 py-3">
         <SidebarMenuButtons
           hasStore={hasStore}

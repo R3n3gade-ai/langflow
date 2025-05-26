@@ -33,7 +33,6 @@ export const MemoizedSidebarGroup = memo(
 
     return (
       <SidebarGroup className="p-3">
-        <SidebarGroupLabel>Bundles</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
             {sortedBundles.map((item) => (

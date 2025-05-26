@@ -1,4 +1,6 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
+import RightSidebarComponent from "@/components/core/rightSidebarComponent";
+import { RightSidebarProvider } from "@/components/core/rightSidebarComponent/RightSidebarProvider";
 import { useGetFlow } from "@/controllers/API/queries/flows/use-get-flow";
 import { useGetTypes } from "@/controllers/API/queries/flows/use-get-types";
 import { useCustomNavigate } from "@/customization/hooks/use-custom-navigate";
@@ -158,16 +160,24 @@ export default function FlowPage({ view }: { view?: boolean }): JSX.Element {
     <>
       <div className="flow-page-positioning">
         {currentFlow && (
-          <div className="flex h-full overflow-hidden">
-            <SidebarProvider width="17.5rem" defaultOpen={!isMobile}>
-              {!view && <FlowSidebarComponent isLoading={isLoading} />}
-              <main className="flex w-full overflow-hidden">
-                <div className="h-full w-full">
-                  <Page setIsLoading={setIsLoading} />
-                </div>
-              </main>
-            </SidebarProvider>
-          </div>
+          <RightSidebarProvider defaultOpen={!isMobile}>
+            <div className="flex h-full overflow-hidden">
+              {/* Left Sidebar */}
+              <SidebarProvider width="17.5rem" defaultOpen={!isMobile}>
+                {!view && <FlowSidebarComponent isLoading={isLoading} />}
+
+                {/* Main Content Area */}
+                <main className="flex w-full overflow-hidden">
+                  <div className="h-full w-full">
+                    <Page setIsLoading={setIsLoading} />
+                  </div>
+                </main>
+              </SidebarProvider>
+
+              {/* Right Sidebar */}
+              {!view && <RightSidebarComponent />}
+            </div>
+          </RightSidebarProvider>
         )}
       </div>
       {blocker.state === "blocked" && (

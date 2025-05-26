@@ -1,6 +1,5 @@
 import { DefaultEdge } from "@/CustomEdges";
 import NoteNode from "@/CustomNodes/NoteNode";
-import FlowToolbar from "@/components/core/flowToolbarComponent";
 import {
   COLOR_OPTIONS,
   NOTE_NODE_MIN_HEIGHT,
@@ -66,7 +65,9 @@ import {
   MemoizedCanvasControls,
   MemoizedLogCanvasControls,
   MemoizedSidebarTrigger,
+  MemoizedRightSidebarTrigger,
 } from "./MemoizedComponents";
+import { useRightSidebar } from "@/components/core/rightSidebarComponent/RightSidebarProvider";
 import getRandomName from "./utils/get-random-name";
 import isWrappedWithClass from "./utils/is-wrapped-with-class";
 
@@ -86,6 +87,7 @@ export default function Page({
   view?: boolean;
   setIsLoading: (isLoading: boolean) => void;
 }): JSX.Element {
+  const { isOpen: rightSidebarOpen, toggle: toggleRightSidebar } = useRightSidebar();
   const uploadFlow = useUploadFlow();
   const autoSaveFlow = useAutoSaveFlow();
   const types = useTypesStore((state) => state.types);
@@ -569,10 +571,15 @@ export default function Page({
                 shadowBoxWidth={shadowBoxWidth}
                 shadowBoxHeight={shadowBoxHeight}
               />
-              <FlowToolbar />
             </>
           )}
           <MemoizedSidebarTrigger />
+          {!view && (
+            <MemoizedRightSidebarTrigger
+              isOpen={rightSidebarOpen}
+              onToggle={toggleRightSidebar}
+            />
+          )}
           <SelectionMenu
             lastSelection={lastSelection}
             isVisible={selectionMenuVisible}
